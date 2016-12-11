@@ -2,7 +2,13 @@ package com.bartek;
 
 public class Main {
 
+    public static int primitiveReturnTest(){
+        int i = 10;
+        return i = 20;
+    }
+
     public static void main(String[] args) {
-	// write your code here
+	    System.out.println(primitiveReturnTest());
+
     }
 }
