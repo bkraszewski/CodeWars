@@ -6,65 +6,43 @@ import java.util.Map;
 
 /**
  * Created by bartek on 11/12/16.
- *
- * Carefull - its very calculation efficient method, but nut thread safe, only can run one instance
+ * <p>
  */
 
 public class SumFct {
 
-    private static Map<BigInteger, BigInteger> fibCache = new HashMap<>();
-
-    static {
-        fibCache.put(BigInteger.ZERO, BigInteger.ONE);
-        fibCache.put(BigInteger.ONE, BigInteger.ONE);
-    }
-
-
     public static BigInteger perimeter(BigInteger n) {
-        fibbonaci(n);
-
-        BigInteger sum = BigInteger.ZERO;
-
-        sum = sumNumbersUntillN(n, sum);
-
+        BigInteger sum = calculateSumOfFibonacci(n);
         return sum.multiply(BigInteger.valueOf(4));
     }
 
-    private static BigInteger sumNumbersUntillN(BigInteger n, BigInteger sum) {
-        for (Map.Entry<BigInteger, BigInteger> entry : fibCache.entrySet()) {
-            if(entry.getKey().compareTo(n) > 0){
-                break;
-            }
-            sum = sum.add(entry.getValue());
-        }
-        return sum;
-    }
-
-    public static BigInteger fibbonaci(BigInteger n) {
+    public static BigInteger calculateSumOfFibonacci(BigInteger n) {
         if (n.longValue() == 0) {
-            return fibCache.get(n);
+            return BigInteger.ONE;
         }
 
         if (n.longValue() == 1) {
-            return fibCache.get(n);
+            return BigInteger.valueOf(2);
         }
+
+        BigInteger first = BigInteger.ONE;
+        BigInteger second = BigInteger.ONE;
+
+        BigInteger total = first.add(second);
 
         BigInteger currentFib;
 
-        if (fibCache.get(n) == null) {
-            BigInteger prev = fibbonaci(n.subtract(BigInteger.ONE));
-            BigInteger prevPrev = fibbonaci(n.subtract(BigInteger.valueOf(2)));
+        for (long a = 2; a <= n.longValue(); a++) {
+            currentFib = first.add(second);
 
-            currentFib = prev.add(prevPrev);
+            first = second;
+            second = currentFib;
 
-            if (fibCache.get(n) == null) {
-                fibCache.put(n, currentFib);
-            }
-        } else {
-            currentFib = fibCache.get(n);
+            total = total.add(currentFib);
+            //System.out.println(String.format("N: %d, first: %d, second: %d currentFib: %d total: %d",a, first.intValue(), second.intValue(), currentFib.intValue(), total.intValue()));
         }
 
-        return currentFib;
+        return (total);
     }
 
 }
