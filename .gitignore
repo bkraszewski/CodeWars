@@ -1,0 +1,10 @@
+
+*.class
+
+*.xml
+
+*.xml
+
+.idea/workspace.xml
+.idea*
+out
